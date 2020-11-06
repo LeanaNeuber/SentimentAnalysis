@@ -18,3 +18,15 @@ We aim at a high test coverage and want to have our code unit and integration te
 ## Containerization
 
 We want our application to be deliverable as a Docker image that contains the pre-trained model and the web interface.
+
+## Running the application
+
+The application needs a redis container to store the pretrained model and a flask container to serve the web interface. To start and connect both containers, we use a docker-compose file (see *docker-compose.yaml*). As a prerequisite, you need to have Docker installed on your machine.
+
+To start the whole application, navigate to the folder in which the *docker-compose.yaml* can be found. From there, execute the following command:
+
+```bash
+docker-compose up
+```
+
+You can then visit the user interface locally under `http://0.0.0.0:5000/`. Enter a phrase and get the sentiment from there!

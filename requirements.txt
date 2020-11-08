@@ -1,5 +1,5 @@
 flask
 redis
-pandas
-numpy
 scikit-learn
+numpy
+pandas

@@ -13,6 +13,7 @@ from sklearn.linear_model import SGDClassifier
 from sklearn.metrics import accuracy_score
 from sklearn.utils.validation import column_or_1d
 from sklearn.pipeline import Pipeline
+
 app = Flask(__name__)
 # ML code for sentiment analysis, could also be in an extra class
 def train_model():
@@ -32,9 +33,6 @@ def train_model():
     print('###### store model to redis with pickle')
     pickled_model = pickle.dumps(text_clf_svm)
     try:
-        print('###### redis client set start TEST')
-        redis_client.set('test','test_value')
-        print('###### redis client set end TEST')
         print('###### redis client set start')
         redis_client.set('ml_model', pickled_model)
         print('###### redis client set end')
@@ -57,14 +55,21 @@ def get_sentiment(phrase):
     except RedisError:
         return "###### fail2"
 
+
 @app.route('/', methods=['GET', 'POST'])
 def index():
     if request.method == 'POST':
         phrase = request.form
         if phrase['form_type'] == 'get_sentiment':
             sent = get_sentiment(phrase['phrase'])
-            print(sent)
+            if sent == 1:
+                return render_template('index_neutral.html')
+            elif sent == 2:
+                return render_template('index_positive.html')
+            elif sent == 0:
+                return render_template('index_negative.html')
     return render_template('index.html')
+
 if __name__ == '__main__':
     redis_client = StrictRedis(host='redis', port=6379)
     train_model()

@@ -13,17 +13,12 @@ from sklearn.linear_model import SGDClassifier
 from sklearn.metrics import accuracy_score
 from sklearn.utils.validation import column_or_1d
 from sklearn.pipeline import Pipeline
-
-
-
-
 app = Flask(__name__)
-
 # ML code for sentiment analysis, could also be in an extra class
 def train_model():
     # do something to train model etc.
     print('###### Load dataset')
-    dataset = pd.read_csv('Sentiment_Reviews.csv',index_col=0)
+    dataset = pd.read_csv('app/Sentiment_Reviews.csv',index_col=0)
     X = dataset[['Reviews']]
     y = dataset[['Sentiment']]
     le = preprocessing.LabelEncoder()
@@ -36,19 +31,16 @@ def train_model():
     # store model to redis with pickle
     print('###### store model to redis with pickle')
     pickled_model = pickle.dumps(text_clf_svm)
-
     try:
         print('###### redis client set start TEST')
         redis_client.set('test','test_value')
         print('###### redis client set end TEST')
-       
         print('###### redis client set start')
         redis_client.set('ml_model', pickled_model)
-        print('###### redis client set end')       
+        print('###### redis client set end')
         return
     except RedisError:
         return "###### fail1"
-
 
 # Get sentiment for phrase for pretrained model
 def get_sentiment(phrase):
@@ -61,26 +53,19 @@ def get_sentiment(phrase):
         #apply model on phrase
         print('###### apply model')
         result = unpacked_model.predict([phrase])
-        pos = result
-        pos = int(pos)
-        sentiment_dict = {2:'positive',1:'neutral',0:'negative'}
-        print(sentiment_dict[pos])
-        return
+        return int(result)
     except RedisError:
         return "###### fail2"
 
-
 @app.route('/', methods=['GET', 'POST'])
 def index():
-    
     if request.method == 'POST':
         phrase = request.form
         if phrase['form_type'] == 'get_sentiment':
-            return get_sentiment(phrase['phrase'])
+            sent = get_sentiment(phrase['phrase'])
+            print(sent)
     return render_template('index.html')
-
 if __name__ == '__main__':
-    
     redis_client = StrictRedis(host='redis', port=6379)
     train_model()
     app.run(host='0.0.0.0')

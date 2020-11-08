@@ -32,28 +32,13 @@ def train_model():
     # store model to redis with pickle
     print('###### store model to redis with pickle')
     pickled_model = pickle.dumps(text_clf_svm)
-<<<<<<< HEAD
-
-=======
->>>>>>> main
     try:
-        print('###### redis client set start TEST')
-        redis_client.set('test','test_value')
-        print('###### redis client set end TEST')
-<<<<<<< HEAD
-
-=======
->>>>>>> main
         print('###### redis client set start')
         redis_client.set('ml_model', pickled_model)
         print('###### redis client set end')
         return
     except RedisError:
         return "###### fail1"
-<<<<<<< HEAD
-
-=======
->>>>>>> main
 
 # Get sentiment for phrase for pretrained model
 def get_sentiment(phrase):
@@ -69,10 +54,7 @@ def get_sentiment(phrase):
         return int(result)
     except RedisError:
         return "###### fail2"
-<<<<<<< HEAD
 
-=======
->>>>>>> main
 
 @app.route('/', methods=['GET', 'POST'])
 def index():
@@ -80,22 +62,17 @@ def index():
         phrase = request.form
         if phrase['form_type'] == 'get_sentiment':
             sent = get_sentiment(phrase['phrase'])
-            print(sent)
-<<<<<<< HEAD
             if sent == 1:
                 return render_template('index_neutral.html')
             elif sent == 2:
                 return render_template('index_positive.html')
             elif sent == 0:
                 return render_template('index_negative.html')
-
-=======
->>>>>>> main
     return render_template('index.html')
+
 if __name__ == '__main__':
     redis_client = StrictRedis(host='redis', port=6379)
     train_model()
-<<<<<<< HEAD
     app.run(host='0.0.0.0')
 
 

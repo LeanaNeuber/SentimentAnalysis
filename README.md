@@ -29,4 +29,4 @@ To start the whole application, navigate to the folder in which the *docker-comp
 docker-compose up
 ```
 
-You can then visit the user interface locally under `http://0.0.0.0:5000/`. Enter a phrase and get the sentiment from there!
+You can then visit the user interface locally under `http://0.0.0.0:5000/` or `http://localhost:5000/`. Enter a phrase and get the sentiment from there!

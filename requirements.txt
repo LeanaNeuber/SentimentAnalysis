@@ -1,2 +1,6 @@
 flask
 redis
+pandas
+pickle
+numpy
+scikit-learn

@@ -1,13 +1,17 @@
 <HTML>
-<BODY bgcolor="ff9999">
-<form method="POST" action="">
+ <head>
+    <link rel="stylesheet" type= "text/css"  href="{{ url_for('static', filename='css/main.css') }}">
+  </head>
+<BODY class="sentAn">
     <center>
-    <H1>Get Sentiment!</H1> <br>
-    Phrase <input type = "text" name = "phrase" /> <br>
-    <input type="hidden" name="form_type" value="get_sentiment"/>
-    <input type = "submit">
+    <h1>SentAn</h1>
+    <h3>A sentiment analyzer API</h3>
+    <form method="POST" action="">
+        <input type = "text" name = "phrase" placeholder="Enter your phrase!" /> <br>
+        <input type="hidden" name="form_type" value="get_sentiment"/><br>
+         <input type = "submit" value="Analyze">
+    </form>
     </center>
-</form>
 
 </BODY>
 </HTML>

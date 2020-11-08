@@ -1,6 +1,6 @@
 FROM python:3.6
 
-WORKDIR /app
+WORKDIR /sentimentAnalysis
 
 ENV FLASK_APP=app.py
 

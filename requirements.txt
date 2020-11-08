@@ -1,6 +1,5 @@
 flask
 redis
 scikit-learn
-matplotlib
 numpy
 pandas

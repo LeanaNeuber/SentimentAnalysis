@@ -45,6 +45,9 @@ def train_model():
         print('Storing the model was not successful and threw an error.')
         print(e)
 
+def get_ml_model():
+    pickled_model = redis_client.get('ml_model')
+    model = pickle.loads(pickled_model)
 
 def get_sentiment(phrase):
     """
@@ -55,8 +58,7 @@ def get_sentiment(phrase):
     """
     print('Getting the sentiment...')
     try:
-        pickled_model = redis_client.get('ml_model')
-        model = pickle.loads(pickled_model)
+        model = get_ml_model()
         prediction = model.predict([phrase])
         return int(prediction)
     except RedisError as e:

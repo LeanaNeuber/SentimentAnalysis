@@ -48,6 +48,7 @@ def train_model():
 def get_ml_model():
     pickled_model = redis_client.get('ml_model')
     model = pickle.loads(pickled_model)
+    return model
 
 def get_sentiment(phrase):
     """
